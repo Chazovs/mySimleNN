@@ -28,23 +28,22 @@ public class ImageService {
 
     /**
      * Возвращает векторизированное представление изображения
-     * @return
      */
     public ImageEntity getImageEntity(Integer imageKey) throws IOException {
         File file = this.imagesFiles[imageKey];
         BufferedImage image = ImageIO.read(file);
 
-        double[] imageVector = new double[pixelCount];
+        double[] imageVector = new double[this.pixelCount];
 
         int x = 0;
         int y = 0;
 
-        for (int i = 1; i < pixelCount; i++) {
-            imageVector[i - 1] = image.getRGB(x, y) / 255f;
+        for (int i = 1; i < this.pixelCount; i++) {
+            imageVector[i - 1] = (image.getRGB(x, y) & 0xff)/ 255f;
 
             x++;
 
-            if (x == 29) {
+            if (x == image.getWidth()) {
                 x = 0;
                 y++;
             }
